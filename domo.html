@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+		*{
+			margin:0 ; 
+			padding:0;
+		}
+		body{
+			background:url(images/snow_bk.jpg);
+			background-size:cover;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/javascript">
+		//随机数
+		function ran(min,max){
+			return parseInt(Math.random()*(max-min+1)+min);
+		}
+		function Snow(){
+			this.IMG = document.createElement('img');
+		}
+		//显示方法添加到原型
+		Snow.prototype.show = function(){
+			this.IMG.src = 'images/ParticleSmoke.png';
+			this.r = ran(2,30);
+			this.IMG.style.width = this.r+'px';
+			this.IMG.style.height = this.r+'px';
+			//left\top\定位
+			this.IMG.style.position = 'absolute';
+			this.IMG.style.left = ran(0,innerWidth-this.r)+"px";
+			document.body.appendChild(this.IMG);
+		}
+		//下落
+		Snow.prototype.run = function(){
+			this.speed = ran(2,20);
+			var a = this;
+			this.timer = setInterval(function(){
+				a.IMG.style.top = a.IMG.offsetTop+a.speed+'px';
+				if(a.IMG.offsetTop>=innerHeight - a.r){
+					document.body.removeChild(a.IMG);
+				}
+			},10);	
+		}
+		
+		//显示雪花
+		var timer = setInterval(function(){
+			var tag = new Snow();
+			tag.show();
+			tag.run();
+		},10);
+	</script>
+</body>
+</html>
